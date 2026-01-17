@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cambio Libre - Estilo Verde Agua</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body class="bg-[#f0f9f9] dark:bg-slate-900 min-h-screen transition-all font-sans text-slate-800" id="cuerpo">
+
+    <nav class="bg-teal-950 text-white p-4 sticky top-0 z-50 shadow-xl border-b border-teal-800">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-black italic text-teal-400 tracking-tighter uppercase">CAMBIO LIBRE</h1>
+            <div class="flex items-center gap-4 bg-teal-900/50 px-4 py-2 rounded-2xl border border-teal-700">
+                <i class="fas fa-user-circle text-teal-300"></i>
+                <div class="text-left">
+                    <p id="displayNombre" class="text-[10px] font-bold uppercase text-teal-200 leading-none">Usuario</p>
+                    <p class="text-sm font-black text-emerald-300"><span id="puntos">0</span> CR&Eacute;DITOS</p>
+                </div>
+                <button onclick="configurarUsuario()" class="ml-2 text-teal-500 hover:text-white"><i class="fas fa-cog"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto p-6">
+        
+        <div id="bannerRuleta" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-6 rounded-[2.5rem] shadow-lg mb-6 flex flex-col md:flex-row gap-6 items-center border-b-4 border-teal-700">
+            <div class="text-4xl animate-bounce text-emerald-100"><i class="fas fa-star"></i></div>
+            <div class="flex-1 text-center md:text-left">
+                <h3 class="font-black italic uppercase text-sm mb-1 text-emerald-100">Bonus de Cr&eacute;ditos</h3>
+                <p class="text-xs opacity-90 text-emerald-50">¡Gira la ruleta diaria para obtener m&aacute;s intercambios gratis!</p>
+            </div>
+            <button id="btnRuleta" onclick="tirarRuleta()" class="bg-white text-teal-700 px-8 py-3 rounded-2xl font-black hover:bg-emerald-50 transition-all shadow-lg active:scale-95 uppercase text-xs">
+                Girar Ruleta
+            </button>
+        </div>
+
+        <div class="bg-teal-100 dark:bg-teal-900/30 border border-teal-200 dark:border-teal-800 p-6 rounded-[2.5rem] mb-8 flex flex-col md:flex-row gap-6 items-center">
+            <div class="text-teal-600 dark:text-teal-400 text-2xl"><i class="fas fa-clipboard-check"></i></div>
+            <div class="flex-1">
+                <h3 class="font-black text-teal-800 dark:text-teal-300 uppercase text-xs mb-2 tracking-widest italic">Normas de convivencia</h3>
+                <ul class="text-[11px] text-teal-700 dark:text-teal-400 grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                    <li>• Tratos respetuosos entre vecinos.</li>
+                    <li>• Prohibido ventas, solo trueques.</li>
+                    <li>• Cada publicaci&oacute;n descuenta 1 punto.</li>
+                    <li>• Fotos reales de los productos.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 p-8 rounded-[3rem] shadow-xl mb-10 border border-slate-200 dark:border-slate-700 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-teal-400"></div>
+            <div class="flex flex-col md:flex-row gap-6 items-end">
+                
+                <div class="flex flex-col items-center gap-2">
+                    <label for="inputFoto" class="cursor-pointer bg-teal-50 dark:bg-slate-700 w-24 h-24 rounded-3xl flex items-center justify-center border-2 border-dashed border-teal-200 dark:border-teal-600 hover:border-teal-400 overflow-hidden group">
+                        <i class="fas fa-camera text-teal-300 group-hover:scale-110 transition-transform" id="iconoCamara"></i>
+                        <img id="previsualizacion" style="width:100%; height:100%; object-fit:cover; display:none;">
+                    </label>
+                    <input type="file" id="inputFoto" accept="image/*" class="hidden" onchange="procesarFoto(this)">
+                </div>
+
+                <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 w-full text-left">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[10px] font-bold text-teal-600 dark:text-teal-400 ml-2 italic uppercase tracking-widest">¿Qu&eacute; ofrec&eacute;s?</label>
+                        <input id="in-titulo" type="text" placeholder="Ej: Teclado gamer" class="p-4 rounded-2xl border-none ring-1 ring-slate-200 dark:ring-slate-600 bg-slate-50 dark:bg-slate-700 dark:text-white outline-none focus:ring-2 focus:ring-teal-400 transition-all">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[10px] font-bold text-teal-600 dark:text-teal-400 ml-2 italic uppercase tracking-widest">WhatsApp</label>
+                        <input id="in-tel" type="number" placeholder="549..." class="p-4 rounded-2xl border-none ring-1 ring-slate-200 dark:ring-slate-600 bg-slate-50 dark:bg-slate-700 dark:text-white outline-none focus:ring-2 focus:ring-teal-400 transition-all">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[10px] font-bold text-teal-600 dark:text-teal-400 ml-2 italic uppercase tracking-widest">Estado</label>
+                        <select id="in-estado" class="p-4 rounded-2xl border-none ring-1 ring-slate-200 dark:ring-slate-600 bg-slate-50 dark:bg-slate-700 dark:text-white outline-none cursor-pointer focus:ring-2 focus:ring-teal-400 transition-all">
+                            <option>Nuevo</option>
+                            <option>Como Nuevo</option>
+                            <option>Usado Bueno</option>
+                            <option>Para Reparar</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button onclick="publicarAhora()" class="w-full md:w-auto bg-teal-500 text-white px-10 py-5 rounded-[2rem] font-black hover:bg-teal-600 transition-all shadow-xl shadow-teal-100 dark:shadow-none uppercase text-sm tracking-wider">
+                    Publicar
+                </button>
+            </div>
+        </div>
+
+        <div id="grid-articulos" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+    </div>
+
+    <script>
+        let usuario = JSON.parse(localStorage.getItem('USER_CL')) || { nombre: "Invitado", creditos: 15 };
+        let misProductos = JSON.parse(localStorage.getItem('DB_CL_V11')) || [];
+        let fotoComprimida = "";
+
+        window.onload = () => { actualizarUI(); dibujar(); };
+
+        function tirarRuleta() {
+            const btn = document.getElementById('btnRuleta');
+            btn.disabled = true;
+            btn.innerText = "Calculando...";
+            setTimeout(() => {
+                const premios = [2, 5, 8, 12];
+                const ganado = premios[Math.floor(Math.random() * premios.length)];
+                usuario.creditos += ganado;
+                localStorage.setItem('USER_CL', JSON.stringify(usuario));
+                actualizarUI();
+                alert("¡Genial! Recibiste " + ganado + " cr&eacute;ditos extras.");
+                btn.innerText = "Girar Ruleta";
+                btn.disabled = false;
+                document.getElementById('bannerRuleta').style.display = 'none';
+            }, 1200);
+        }
+
+        function procesarFoto(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const MAX_WIDTH = 450;
+                        const scaleSize = MAX_WIDTH / img.width;
+                        canvas.width = MAX_WIDTH;
+                        canvas.height = img.height * scaleSize;
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        fotoComprimida = canvas.toDataURL('image/jpeg', 0.6);
+                        document.getElementById('previsualizacion').src = fotoComprimida;
+                        document.getElementById('previsualizacion').style.display = 'block';
+                        document.getElementById('iconoCamara').style.display = 'none';
+                    }
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function publicarAhora() {
+            if(usuario.creditos <= 0) return alert("No tienes cr&eacute;ditos. ¡Gira la ruleta!");
+            const t = document.getElementById('in-titulo').value;
+            const tel = document.getElementById('in-tel').value;
+            const est = document.getElementById('in-estado').value;
+            if(!t || !tel) return alert("Faltan datos obligatorios.");
+
+            const nuevo = {
+                id: Date.now(),
+                nombre: t,
+                telefono: tel,
+                estado: est,
+                dueno: usuario.nombre,
+                foto: fotoComprimida || "https://via.placeholder.com/400x300/ccfbf1/0d9488?text=Sin+Foto"
+            };
+
+            misProductos.unshift(nuevo);
+            localStorage.setItem('DB_CL_V11', JSON.stringify(misProductos));
+            usuario.creditos -= 1;
+            localStorage.setItem('USER_CL', JSON.stringify(usuario));
+            
+            // Limpiar
+            document.getElementById('in-titulo').value = "";
+            document.getElementById('in-tel').value = "";
+            document.getElementById('previsualizacion').style.display = 'none';
+            document.getElementById('iconoCamara').style.display = 'block';
+            fotoComprimida = "";
+            
+            actualizarUI();
+            dibujar();
+        }
+
+        function dibujar() {
+            const grid = document.getElementById('grid-articulos');
+            grid.innerHTML = "";
+            misProductos.forEach(p => {
+                const msg = encodeURIComponent("¡Hola! Me interesa tu " + p.nombre + " que vi en Cambio Libre.");
+                grid.innerHTML += `
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-[2.8rem] shadow-sm border border-teal-50 dark:border-slate-700 hover:shadow-xl transition-all group overflow-hidden relative">
+                    <button onclick="borrar(${p.id})" class="absolute top-4 right-4 bg-white/90 text-red-500 w-8 h-8 rounded-full opacity-0 group-hover:opacity-100 transition-all z-10 shadow-md">
+                        <i class="fas fa-trash-alt text-xs"></i>
+                    </button>
+                    <div class="h-48 rounded-[2.2rem] mb-4 overflow-hidden bg-teal-50 dark:bg-slate-700">
+                        <img src="${p.foto}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="px-2">
+                        <span class="text-[9px] font-black text-teal-500 uppercase tracking-[0.2em] mb-1 block">${p.estado}</span>
+                        <h4 class="font-bold text-lg dark:text-white truncate mb-1">${p.nombre}</h4>
+                        <p class="text-[10px] text-slate-400 font-bold mb-5 uppercase tracking-tighter italic">Swapper: ${p.dueno}</p>
+                        <a href="https://wa.me/${p.telefono}?text=${msg}" target="_blank" class="w-full bg-teal-500 text-white text-center py-4 rounded-2xl text-[11px] font-black shadow-lg shadow-teal-100 dark:shadow-none flex items-center justify-center gap-2 hover:bg-teal-600 transition-colors uppercase">
+                            <i class="fab fa-whatsapp text-sm"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function actualizarUI() {
+            document.getElementById('displayNombre').innerText = usuario.nombre;
+            document.getElementById('puntos').innerText = usuario.creditos;
+        }
+
+        function configurarUsuario() {
+            const n = prompt("Tu nombre en Cambio Libre:", usuario.nombre);
+            if(n) { usuario.nombre = n; localStorage.setItem('USER_CL', JSON.stringify(usuario)); actualizarUI(); dibujar(); }
+        }
+
+        function borrar(id) {
+            if(confirm("¿Eliminar publicaci&oacute;n?")) {
+                misProductos = misProductos.filter(x => x.id !== id);
+                localStorage.setItem('DB_CL_V11', JSON.stringify(misProductos));
+                dibujar();
+            }
+        }
+    </script>
+</body>
+</html>
